@@ -1,0 +1,13 @@
+{
+  "install": {
+    "exclude": [
+      "^.*$"
+    ]
+  },
+  "restart": {
+    "exclude": [
+      "^.*$"
+    ]
+  },
+  "throttle": 100
+}

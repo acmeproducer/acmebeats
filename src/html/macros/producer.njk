@@ -1,0 +1,366 @@
+<!--
+Description: 
+  All things to optimize the head of the page. 
+Parameters:
+- company: The name of the company
+- title: The title of the page
+- description: Description of the page
+- image: Relative path of image to show as main image
+- locale: The locale the Open Graph tags are marked up in
+- canonical: The canonical url
+- css_file: Name of the CSS file, as lives in src/css/name.css - use name.css
+-->
+{% macro head(company, title, description, image, locale, canonical, css_file) %}
+    <!-- make sure that the page can not be zoomed, and does not slide left/right on iOS -->
+    <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no">
+
+    <title>{$ title $}</title>
+    <meta name="author" content="{$ company $}">
+    <meta name="description" content="{$ description $}">
+
+    <meta name="robots" content="index, follow" />
+    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+    <link rel="canonical" href="{$ canonical $}" />
+    <meta property="og:locale" content="{$ locale $}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="{$ title $}" />
+    <meta property="og:description" content="{$ description $}" />
+    <meta property="og:url" content="{$ canonical $}" />
+    <meta property="og:image" content="{$ image $}" />
+    <meta property="og:site_name" content="{$ company $}" />
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{$ title $}">
+
+    <style amp-custom>
+    {% include "temp/css/tailwind.css" %}
+    {% include "src/css/global.css" %}
+    {% include "src/css/" + css_file %}
+    </style>
+
+    <meta name="amp-google-client-id-api" content="googleanalytics">
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+{% endmacro %}
+
+<!-- 
+Description: 
+  Render the AMP analytics tags for google and facebook pixel analytics.
+  Use at top of body tag contents.              
+Parameters:
+- gtag_id: Google tags ID
+- facebook_pixelId: Facebook pixel ID
+-->
+{% macro analytics(gtag_id, facebook_pixelId) %}
+
+    {% if gtag_id %}
+        <amp-analytics type="gtag" data-credentials="include">
+        <script type="application/json">
+        {
+        "vars" : {
+            "gtag_id": "{$ gtag_id $}",
+            "config" : {
+            "{$ gtag_id $}": { "groups": "default" }
+            }
+        }
+        }
+        </script>
+        </amp-analytics>
+    {% endif %}
+
+    {% if facebook_pixelId %}
+        <amp-analytics type="facebookpixel" id="facebook-pixel">
+        <script type="application/json">
+        {
+            "vars": {
+            "pixelId": "{$ facebook_pixelId $}"
+            },
+            "triggers": {
+            "trackPageview": {
+                "on": "visible",
+                "request": "pageview"
+            }
+            }
+        }
+        </script>
+        </amp-analytics>
+    {% endif %}
+{% endmacro %}
+
+{% macro countdown(title, hoursleft) %}
+    {% set timeleft_ms = hoursleft * 3600000 %}
+    <div class="text-center">
+        <p class="text-3xl">{$ title $}</p>
+        <amp-date-countdown timeleft-ms="{$ timeleft_ms $}" biggest-unit="hours" layout="fixed-height" height="50">
+            <template type="amp-mustache">
+                <div class="text-3xl font-bold">{{hh}}:{{mm}}:{{ss}}</div>
+            </template>
+        </amp-date-countdown>
+    </div>
+{% endmacro %}
+
+{% macro soundcloud(title, description, playlistid) %}
+    <div class="text-center">
+        <p class="mt-2 text-2xl">{$ title $}</p>
+        <p>{$ description $}</p>
+        <amp-soundcloud height="570" layout="fixed-height" data-playlistid="{$ playlistid $}" data-color="ff0000" data-visual="false"></amp-soundcloud>
+    </div>
+{% endmacro %}
+
+{% macro checkout_button(title, class) %}
+    {% if class %}
+        {% set buttonClass = $css.btn_i_want_this + " " + class %}
+    {% else %}
+        {% set buttonClass = $css.btn_i_want_this + " " + $css.btn_i_want_this_color %}
+    {% endif %}
+
+    <div class="text-center">
+        <a href="#checkout">
+            <button class="{$ buttonClass $}">
+                {$ title $}
+            </button>
+        </a>
+    </div>
+{% endmacro %}
+
+{% macro divider(class) %}
+    <hr class="{$ class $}"/>
+{% endmacro %}
+
+{% macro text(title, lines, image, class = "") %}
+    <div class="space-y-8 {% if class %} {$ class $} {% else %} text-2xl {% endif %} ">
+        {% if title %}
+            <p class="font-bold text-center">{$ title $}</p>
+        {% endif %}
+        {% for line in lines %}
+            <p>{$ line $}</p>
+        {% endfor %}
+        {% if image %}
+            <div class="text-center">
+                <amp-img src="{$ image.src $}" width="{$ image.width $}" height="{$ image.height $}" layout="intrinsic" alt="{$ image.alt if image.alt else '' $}"></amp-img>
+            </div>
+        {% endif %}
+        <div class="mb-8"></div>
+    </div>
+{% endmacro %}
+
+{% macro product_placement(title, image, from, for, unique_selling_points, message) %}
+    <div class="space-y-8 text-3xl text-center">
+        <p class="font-bold">{$ title $}</p>
+        <amp-img src="{$ image.src $}" width="{$ image.width $}" height="{$ image.height $}" layout="intrinsic" alt="{$ image.alt if image.alt else '' $}"></amp-img>
+        <p class="linethrough">{$ from $}</p>
+        <p>{$ for $}</p>
+
+        {% if unique_selling_points.length > 0 %}
+            <div class="text-xl font-bold">
+                {% for usp in unique_selling_points %}
+                    <p>{$ usp $}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if message %}
+            <div class="p-8 m-8 mb-16 text-xl border-2 border-white border-dotted lg:mx-32">
+                {$ message $}
+            </div>
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro reviews(images) %}
+    {% if images %}
+        {% for image in images %}
+            <div class="center-container">
+                <div class="p-2 m-3 mb-8 bg-white rounded-lg shadow-lg">
+                    <amp-img src="{$ image.src $}" width="{$ image.width $}" height="{$ image.height $}" layout="intrinsic" alt="{$ image.alt if image.alt else '' $}"></amp-img>
+                </div>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+
+{% macro text_thanks(title, details, note) %}
+    <div class="space-y-6 text-center">
+        <p class="text-4xl">{$ title $}</p>
+        <p class="text-xl">{$ details $}</p>
+        <p class="text-lg">{$ note $}</p>
+    </div>
+{% endmacro %}
+
+{% macro socials(social_blocks) %}
+    <div class="mt-8 space-x-6 center-container">
+        {% if social_blocks %}
+            {% for block in social_blocks %}
+                <div class="text-center">
+                    <a href="{$ block.URL $}" target="_blank">
+                        <amp-img src="{$ block.image.src $}" width="{$ block.image.width $}" height="{$ block.image.height $}" layout="intrinsic" alt="{$ block.image.alt $}"></amp-img>
+                        <p class="">{$ block.title $}</p>
+                    </a>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endmacro %}
+
+{% macro youtube(videoid) %}
+    <amp-youtube
+        data-videoid="{$ videoid $}"
+        layout="responsive"
+        width="480"
+        height="270"
+    ></amp-youtube>
+{% endmacro %}
+
+{% macro checkout_unlimitedrights_trackouts(title, product_base, product_unlimited, product_trackouts) %}
+    <div id="checkout" class="max-w-4xl p-2 mx-auto md:p-4">
+        <div class="my-2 text-2xl">
+            <p class="mb-8 text-4xl font-bold text-center">{$ title $}</p>
+
+            <form data-initialize-from-url="data-initialize-from-url" id="checkoutform" method="POST" action-xhr="/.netlify/functions/producer_paypal_url" enctype="application/x-www-form-urlencoded" target="_top" on="submit-success:AMP.setState({checkoutSuccess: true})" custom-validation-reporting="show-all-on-submit">
+                <input type="hidden" id="file_stem" name="file_stem" value="{$ $file_stem $}"/>
+                <input type="hidden" id="sku_base" name="sku_base" value="{$ product_base.sku $}"/>
+                <input type="hidden" id="host" name="host" value="SOURCE_HOST" data-amp-replace="SOURCE_HOST"/>
+                <p class="mb-8 text-3xl font-bold">Billing details</p>
+                <p>
+                    <label for="name">First name<span class="text-red-700">*</span></label>
+                    <input type="text" id="name" name="name" data-allow-initialization="data-allow-initialization" tabindex="1" class="block w-full px-4 py-2 leading-normal bg-white border border-gray-300 rounded-lg appearance-none focus:outline-none focus:shadow-outline" placeholder="Jane" required="true">
+                    <span visible-when-invalid="valueMissing" validation-for="name">Please specify your name</span>
+                </p>
+                <p>
+                    <label for="Email address">Email<span class="text-red-700">*</span></label>
+                    <input type="email" id="email" name="email" data-allow-initialization="data-allow-initialization" tabindex="2" class="block w-full px-4 py-2 leading-normal bg-white border border-gray-300 rounded-lg appearance-none focus:outline-none focus:shadow-outline" placeholder="jane@example.com" required="true">
+                    <span visible-when-invalid="valueMissing" validation-for="email">Please specify your e-mail</span>
+                    <span visible-when-invalid="typeMismatch" validation-for="email">The specified e-mail should be in the format name@example.com</span>
+                </p>
+
+                <p class="my-8 text-3xl font-bold">Your order</p>
+
+                <div class="table w-full">
+                    <div class="table-header-group">
+                        <div class="table-row font-bold">
+                            <div class="table-cell py-2 border-b-2 border-dashed">Product</div>
+                            <div class="table-cell py-2 text-right border-b-2 border-dashed">Subtotal</div>
+                        </div>
+                    </div>
+                    <div class="table-row-group">
+                        <div class="table-row">
+                            <div class="table-cell py-2">{$ product_base.orderline_title $}</div>
+                            <div class="table-cell py-2 text-right">{$ product_base.orderline_price $}</div>
+                        </div>
+                        <div class="table-row" hidden="hidden" [hidden]="!product.unlimitedRights">
+                            <div class="table-cell py-2">{$ product_unlimited.orderline_title $}</div>
+                            <div class="table-cell py-2 text-right">{$ product_unlimited.orderline_price $}</div>
+                        </div>
+                        <div class="table-row" hidden="hidden" [hidden]="!product.trackouts">
+                            <div class="table-cell py-2">{$ product_trackouts.orderline_title $}</div>
+                            <div class="table-cell py-2 text-right">{$ product_trackouts.orderline_price $}</div>
+                        </div>
+                        <div class="table-row">
+                            <div class="table-cell py-2 border-t-2 border-dashed">Subtotal</div>
+                            <div class="table-cell py-2 text-right border-t-2 border-dashed" hidden="hidden" [hidden]="!product.trackouts">{$ product_trackouts.order_price $}</div>
+                            <div class="table-cell py-2 text-right border-t-2 border-dashed" hidden="hidden" [hidden]="!product.unlimitedRights || product.trackouts">{$ product_unlimited.order_price $}</div>
+                            <div class="table-cell py-2 text-right border-t-2 border-dashed" [hidden]="!!product.unlimitedRights">{$ product_base.order_price $}</div>
+                        </div>
+                        <div class="table-row font-bold">
+                            <div class="table-cell border-t-2 border-dashed">Total</div>
+                            <div class="table-cell text-right border-t-2 border-dashed" hidden="hidden" [hidden]="!product.trackouts">{$ product_trackouts.order_price $}</div>
+                            <div class="table-cell text-right border-t-2 border-dashed" hidden="hidden" [hidden]="!product.unlimitedRights || product.trackouts">{$ product_unlimited.order_price $}</div>
+                            <div class="table-cell text-right border-t-2 border-dashed" [hidden]="!!product.unlimitedRights">{$ product_base.order_price $}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== UNLIMITED RIGHTS ========== -->
+                {$ productSelectorBox('unlimitedRights', 3, product_unlimited.title, product_unlimited.description, true, 'trackouts: false', 'trackouts: false') $}
+
+                <!-- ========== TRACKOUTS ========== -->
+                {$ productSelectorBox('trackouts', 4, product_trackouts.title, product_trackouts.description, true, 'unlimitedRights: true', 'unlimitedRights: true') $}
+
+                <div class="my-8 text-center">
+                    <amp-img src="/img/payment/BuyNow-1000x601.jpg" alt="Buy Now with PayPal" width="500" height="300" layout="intrinsic" role="button" tabindex="4" on="tap:checkoutform.submit"/>
+                </div>
+                <div submit-success="submit-success">
+                    In a moment you will be directed to your selected payment provider.
+                </div>
+                <div submit-error="submit-error">
+                    An error occured. Please refresh the browser and try again.
+                </div>
+            </form>
+        </div>
+    </div>
+{% endmacro %}
+
+<!--
+Description: 
+  Show checkbox with product selection as part of the checkout form. The id is used as the id and name of the checkbox.
+  This id is available in the data posted to the function connected to the form. The id is also used in the amp-state to
+  record the state of the checkbox.
+
+Parameters:
+- id: id of the checkbox
+- tabindex
+- title: The text next to the checkbox 
+- description: The description of the product
+- blinking_red_arrow: Should blinking red arrow be shown before checkbox
+- additional_state_on: additional state to set if checkbox checked, e.g. prod_X: true, prod_Y: true (additional products selected)
+- additional_state_off: additional state to set if checkbox unchecked, e.g. prod_X: false, prod_Y: false
+-->
+
+{% macro productSelectorBox(id, tabindex, title, description, blinking_red_arrow, additional_state_on, additional_state_off) %}
+    <div class="p-8 mt-8 mb-0 text-xl bg-gray-400 border-2 border-black border-dashed offer">
+        {$ description $}
+    </div>
+    <div class="p-8 mt-0 text-xl bg-gray-400 border-2 border-t-0 border-black border-dashed offer">
+        <div class="space-x-4 align-baseline left-container">
+            <input type="checkbox" id="{$ id $}" name="{$ id $}" tabindex="{$ tabindex $}" hidden [checked]="product.{$ id $}">
+            {% if blinking_red_arrow %}
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    x="0px" y="0px" width="40px" height="40px" class="blink" viewBox="0 0 401.948 401.949" fill="red"
+                    style="display:inline-block; enable-background:new 0 0 401.948 401.949;" xml:space="preserve">
+                    <g id="Layer_5_55_">
+                        <path d="M397,190.734L228.738,73.444c-6.599-5.632-11.996-3.147-11.996,5.528v49.068c0,8.672-7.099,15.77-15.77,15.77
+                    l-104.176,0.156H15.69v0.125C7.051,144.139,0.002,151.214,0,159.857l0.002,82.789c0,8.673,7.095,15.771,15.765,15.771
+                    l183.426-0.275h1.834c8.647,0.028,15.717,7.107,15.717,15.765v49.067c0,8.675,5.397,11.163,11.993,5.535l168.265-117.294
+                    C403.598,205.579,403.598,196.367,397,190.734z" />
+                    </g>
+                </svg>
+            {% endif %}
+            <!-- empty -->
+            <span role="checkbox" tabindex="{$ tabindex $}" on="tap:AMP.setState({ product: { {$ id $}: true, {$ additional_state_on $} } })"
+                [hidden]="product.{$ id $}">
+                <svg xmlns="http://www.w3.org/2000/svg" style="background: white" width="40" height="40"
+                    viewBox="0 0 24 24">
+                    <path d="M22 2v20h-20v-20h20zm2-2h-24v24h24v-24z" />
+                </svg>
+            </span>
+            <!-- checked -->
+            <span role="checkbox" tabindex="{$ tabindex $}" on="tap:AMP.setState({ product: { {$ id $}: false, {$ additional_state_off $} } })"
+                hidden [hidden]="!product.{$ id $}">
+                <svg xmlns="http://www.w3.org/2000/svg" style="background: white" width="40" height="40"
+                    viewBox="0 0 24 24">
+                    <path
+                        d="M11 17l-5-5.299 1.399-1.43 3.574 3.736 6.572-7.007 1.455 1.403-8 8.597zm11-15v20h-20v-20h20zm2-2h-24v24h24v-24z" />
+                </svg>
+            </span>
+            <span class="text-base font-bold sm:pt-3 md:pt-0 md:text-2xl">{$ title $}</span>
+        </div>
+    </div>
+{% endmacro %}

@@ -1,0 +1,42 @@
+{
+  "body":{
+    "greeting":"Hey __NAME__ what's up!",
+    "signature":"",
+    "intro":[
+      "",
+      "",
+      "Thanks again for your purchase."
+    ],
+    "action":[
+      {
+        "instructions":"To download your 30 Beats, please click here:",
+        "button":{
+          "color":"#22BC66",
+          "text":"30 beats",
+          "link":"https://drive.google.com/drive/folders/xxxxxxxxxxxxxxxxxxxxxxx?usp=sharing"
+        }
+      },
+      {
+        "instructions":"To download your Premium Lease Contract click here:",
+        "button":{
+          "color":"#22BC66",
+          "text":"Premium Lease Contract",
+          "link":"https://drive.google.com/file/d/yyyyyyyyyyyyyyyyyyyyy/view?usp=sharing"
+          }
+        }
+    ],
+    "outro":[
+      "",
+      "",
+      "Looking forward to do more work with you :)",
+      "",
+      "",
+      "Enjoy your beats!",
+      "",
+      "",
+      "ACME Producer",
+      "",
+      ""
+    ]
+  }
+}

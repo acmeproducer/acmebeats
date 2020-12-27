@@ -1,0 +1,9 @@
+{
+  "theme":"salted",
+  "product":{
+    "name":"ACME Producer",
+    "link":"/index.html",
+    "copyright":"Copyright © __YEAR__ ACME Producer. All rights reserved.",
+    "logo":"/img/company-64x64.png"
+  }
+}

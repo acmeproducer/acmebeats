@@ -1,0 +1,38 @@
+[
+  {
+    "sku": "B30",
+    "currency_code": "USD",
+    "amount": 17,
+    "name": "Bundle",
+    "description": "",
+    "type": "DIGITAL",
+    "image_url": "",
+    "home_url": "",
+    "email": "email-mailgen-B30.json",
+    "email_subject": "Your 30 Beats With Premium Rights (Prod. by ACME Producer)"
+  },
+  {
+    "sku": "B30unl",
+    "currency_code": "USD",
+    "amount": 46,
+    "name": "Unlimited Bundle",
+    "description": "",
+    "type": "DIGITAL",
+    "image_url": "",
+    "home_url": "",
+    "email": "email-mailgen-B30unl.json",
+    "email_subject": "Your 30 Beats With Unlimited Rights (Prod. by ACME Producer)"
+  },
+  {
+    "sku": "B30unltrck",
+    "currency_code": "USD",
+    "amount": 75,
+    "name": "Unlimited Bundle With Trackouts",
+    "description": "",
+    "type": "DIGITAL",
+    "image_url": "",
+    "home_url": "",
+    "email": "email-mailgen-B30unltrck.json",
+    "email_subject": "Your 30 Beats With Unlimited Rights + Trackouts (Prod. by ACME Producer)"
+  }
+]

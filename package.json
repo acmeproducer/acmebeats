@@ -1,0 +1,37 @@
+{
+  "name": "ampsf-producer",
+  "description": "The starter template for producer sales funnels",
+  "author": "Serge Dellariva",
+  "version": "0.1.0",
+  "private": true,
+  "config": {
+    "localdev": {
+      "// port to run Netlify Simulator locally - if 8888 then accessible on http://localhost:8888": "",
+      "port": 8888,
+      "// subdomain to try to get when creating a local tunnel, e.g. <subdomain>.loca.lt": "",
+      "subdomain": "ampsf-producer",
+      "// timout of function in seconds, default value for Netlify functions 10 seconds": "",
+      "timeout": 10,
+      "// log level for output during development: trace, debug, info, warn, error": "",
+      "loglevel": "info"
+    }
+  },
+  "scripts": {
+    "start": "ampsalesfunnels start",
+    "startproduction": "ampsalesfunnels startproduction",
+    "build": "ampsalesfunnels build",
+    "validate": "ampsalesfunnels validate",
+    "clean": "ampsalesfunnels clean"
+  },
+  "license": "Dellariva Solutions  Commercial Software License",
+  "dependencies": {
+    "ampsalesfunnels-functions": "^1.0.0",
+    "nodemailer": "^6.4.14"
+  },
+  "devDependencies": {
+    "ampsalesfunnels": "^1.0.0"
+  },
+  "engines": {
+    "node": "12"
+  }
+}

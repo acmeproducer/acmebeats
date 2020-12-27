@@ -1,0 +1,56 @@
+{% import "src/html/macros/producer.njk" as producer %}
+
+{% extends "src/html/macros/producer-thanks-template.njk" %}
+
+{% block header %}
+    {$ producer.head(
+        company = "ACMEBeats",
+        title = "30 Beats Pack | ACMEBeats",
+        description = "30 Beats Pack - For Rappers, Artists, DJs & Creators",
+        image = "/img/industry-quality-beats.jpg",
+        locale = "en_US",
+        canonical = "/2021deluxe-thanks.html",
+        css_file = "beats.css"
+    ) $}
+{% endblock %}
+
+{% block analytics %}
+    {$ producer.analytics(
+        gtag_id = "UA-xxxxxxxxx-x",
+        facebook_pixelId = "xxxxxxxxxxxxxxx"
+    ) $}
+{% endblock %}
+
+{% block body %}
+<div class="text-black bg-white">
+    {$ producer.text_thanks(
+        title = "Thanks for your purchase",
+        details = "Your downloads will be in your inbox shortly!",
+        note = "(Please also check your Spam folder)"
+    ) $}
+    {$ producer.socials(
+        social_blocks = [
+            {
+                "title": "Follow Me",
+                "URL": "http://www.instagram.com/ACMEBeats",
+                "image": {
+                    "src": "img/social/Instagram.png",
+                    "width": 128,
+                    "height": 128,
+                    "alt": "Instagram"
+                }
+            },
+            {
+                "title": "More Beats",
+                "URL": "http://www.beatstars.com/ACMEBeats",
+                "image": {
+                    "src": "img/social/BeatStars.png",
+                    "width": 128,
+                    "height": 128,
+                    "alt": "More Beats"
+                }
+            }
+        ]
+    ) $}
+</div>
+{% endblock %}
